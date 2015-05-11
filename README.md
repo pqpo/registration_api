@@ -28,7 +28,7 @@ REST:		修改用户相关信息
 URI:		/user/profile/update
 method:      	POST
 param:		id：用户id
-		email：邮箱
+		email：邮箱 --------------------------------------------TODO 邮箱不可改
 		nickname：姓名
 		gender：性别（1：男，2：女）
 		age：年龄
@@ -55,7 +55,7 @@ REST:		预约
 URI:		/registration/user/register
 method:      	POST
 param:		userId：用户id
-		doctor：医生id
+		doctorId：医生id
 		date：预约日期
 		name：姓名
 		age：年龄

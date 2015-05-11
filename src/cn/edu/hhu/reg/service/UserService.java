@@ -37,6 +37,7 @@ public class UserService {
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("uid", userLoginByEmail.getUserId());
+	    result.put("email", userLoginByEmail.getEmail());
 	    return result;
 	}
 	
@@ -58,6 +59,7 @@ public class UserService {
 		userLoginDao.save(userLogin);
 		Map<String, Object> result = new HashMap<String, Object>();
 	    result.put("uid", userLogin.getUserId());
+	    result.put("email", userLogin.getEmail());
 	    return result;
 	}
 
@@ -66,8 +68,12 @@ public class UserService {
 	}
 
 	public User updateUser(User user) {
-		userDao.update(user);
-		return user;
+		User u = userDao.get(User.class, user.getId());
+		u.setNickname(user.getNickname());
+		u.setAge(user.getAge());
+		u.setGender(user.getGender());
+		userDao.update(u);
+		return u;
 	}
 
 	public UserLogin resetPassword(UserLogin userLogin) throws Exception {
