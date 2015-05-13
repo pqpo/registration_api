@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Table(name="registration")
@@ -31,6 +34,11 @@ public class Registration {
 	 */
 	@Column(name="doctor_id",length=16)
 	private Integer doctorId;
+	
+	@Transient
+	private String doctorName;
+	@Transient
+	private String departmentName;
 	
 	/**
 	 * 预约日期
@@ -75,9 +83,6 @@ public class Registration {
 	@Column(name="create_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
-	
-	
-
 
 	public Integer getId() {
 		return id;
@@ -177,6 +182,26 @@ public class Registration {
 		this.createTime = createTime;
 	}
 
+	
+
+	public String getDoctorName() {
+		return doctorName;
+	}
+
+
+	public void setDoctorName(String doctorName) {
+		this.doctorName = doctorName;
+	}
+
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
 
 
 	public Registration() {

@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.hhu.reg.common.error.ApiError;
+import cn.edu.hhu.reg.dao.DepartmentDao;
 import cn.edu.hhu.reg.dao.DoctorDao;
 import cn.edu.hhu.reg.dao.RegistrationDao;
+import cn.edu.hhu.reg.vo.Department;
 import cn.edu.hhu.reg.vo.Doctor;
 import cn.edu.hhu.reg.vo.Registration;
 
@@ -24,6 +26,8 @@ public class RegistrationService {
 	private RegistrationDao registrationDao;
 	@Resource
 	private DoctorDao doctorDao;
+	@Resource
+	private DepartmentDao departmentDao;
 	
 	
 	public Registration register(Registration registration) throws Exception {
@@ -73,7 +77,16 @@ public class RegistrationService {
 	}
 
 
-	public List<Registration> getByUserId(Integer userId) {
-		return registrationDao.getByUserId(userId);
+	public List<Registration> getByUserId(Integer userId) {		
+		List<Registration> list = registrationDao.getByUserId(userId);
+		for(Registration re:list){
+			int doctorId = re.getDoctorId();
+			Doctor doc = doctorDao.get(Doctor.class, doctorId);
+			int depId = doc.getDepartmentId();
+			Department dep = departmentDao.get(Department.class, depId);
+			re.setDoctorName(doc.getNickname());
+			re.setDepartmentName(dep.getName());
+		}
+		return list;
 	}
 }

@@ -18,7 +18,7 @@ public class RegistrationDao extends BaseDaoImpl<Registration> {
 	}
 
 	public List<Registration> getByUserId(Integer userId) {
-		String hql = "from Registration where userId=?";
+		String hql = "from Registration where userId=? order by date";
 		return find(hql, userId);
 	}
 
