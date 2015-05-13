@@ -1,5 +1,7 @@
 package cn.edu.hhu.reg.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,6 +27,24 @@ public class RegistrationService {
 	
 	
 	public Registration register(Registration registration) throws Exception {
+		Date date = registration.getDate();
+		Calendar cReg = Calendar.getInstance();
+		cReg.setTime(date);
+		
+		Calendar cToday = Calendar.getInstance();
+		cToday.set(Calendar.HOUR_OF_DAY, 24);
+		cToday.set(Calendar.MINUTE, 60);
+		cToday.set(Calendar.SECOND, 60);
+		
+		if(!cReg.after(cToday)){
+			throw new Exception(ApiError.REGISTRATION_DATE_INVALID_AFTER.message);
+		}
+		cToday.add(Calendar.DAY_OF_MONTH, 7);
+		if(!cReg.before(cToday)){
+			throw new Exception(ApiError.REGISTRATION_DATE_INVALID_BEFORE.message);
+		}
+		
+		
 		Doctor doctor = doctorDao.get(Doctor.class, registration.getDoctorId());
 		int status = doctor.getStatus();
 		if(status!=0){
@@ -35,9 +55,9 @@ public class RegistrationService {
 		//当前该医生当天预约数
 		long currentReg = registrationDao.findCountByDoctor(registration.getDoctorId(),registration.getDate());
 		if(currentReg>=maxReg){
-			throw new Exception(ApiError.REGISTRATION_DATE_INVALID.message);
+			throw new Exception(ApiError.REGISTRATION_DATE_INVALID_MAX.message);
 		}
-		
+		registration.setCreateTime(new Date());
 		registrationDao.save(registration);
 		return registration;
 	}

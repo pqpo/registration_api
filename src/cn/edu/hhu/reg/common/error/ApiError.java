@@ -26,9 +26,11 @@ public enum ApiError {
     USER_NOT_REGISTER             (20501, "用户未注册！"),
     USER_ALREADY_REGISTERED       (20502, "用户已注册！"),
 
-    REGISTRATION_DATE_INVALID     (20601,"预订日期无效（该天预订人数已满）！"),
-    REGISTRATION_DOCTOR_INVALID     (20601,"该医生不可预订（预订状态：不可预订）！"),
-    REGISTRATION_CANNOT_CANCEL     (20601,"无法取消（无效预约）！"),
+    REGISTRATION_DATE_INVALID_MAX     (20601,"预订日期无效（该天预订人数已满）！"),
+    REGISTRATION_DATE_INVALID_AFTER     (20602,"预订日期无效（最早预约日期为明天）！"),
+    REGISTRATION_DATE_INVALID_BEFORE     (20603,"预订日期无效（预约日期必须为七天之内）！"),
+    REGISTRATION_DOCTOR_INVALID     (20604,"该医生不可预订（预订状态：不可预订）！"),
+    REGISTRATION_CANNOT_CANCEL     (20605,"无法取消（无效预约）！"),
 
     SERVICE_ERROR_TYPE              (21001, "Service's type is invalid."),
     ;
